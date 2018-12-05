@@ -1,0 +1,22 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://47.105.58.164:9096/eureka/ #eureka服务注册地址 服务注册中心的配置内容，指定服务注册中心的Url
+server:
+  port: 9190
+spring:
+  application:
+    name: service-zuul
+zuul:
+#需要忽略的头部信息，不在传播到其他服务
+  sensitive-headers: Access-Control-Allow-Origin
+  ignored-headers: Access-Control-Allow-Origin,H-APP-Id,Token,APPToken
+  routes:
+    api-a:
+      path: /security/**
+      serviceId: serviceSecurity
+    api-b:
+      path: /customer/**
+      serviceId: serverCustomer #列如  http://localhost:9190/api/demo/hello （可通过这种方式进行项目访问）
+      
+ # 由此可见我可以设计个对外的暴露接口，该模块全部对外暴露其他的不对外暴露
